@@ -15,19 +15,24 @@ function addBookToLibrary(name, author, haveRead) {
 const bookTest = addBookToLibrary("Reacher", "Not Sure", false)
 const bookTest2 = addBookToLibrary("Naruto", "I dont know", true)
 const bookTest3 = addBookToLibrary("Assassin's Apprentice", "Robin Hobb", true)
+const bookTest4 = addBookToLibrary("Atomic Habbits", "James Clear", true)
 
 console.log(bookTest);
 console.log(library);
 
 function addToPage(title, subtitle, textContent) {
     const container = document.querySelector('.container')
+    const row = document.querySelector('.row')
     
+    const divCol = document.createElement('div')
     const divCard = document.createElement('div')
     const divBody = document.createElement('div')
     const h5 = document.createElement('h5')
     const h6 = document.createElement('h6')
     const p = document.createElement('p')
 
+
+        divCol.classList.add('col-md-4', 'mb-3')
         divCard.classList.add('card')
         divCard.style.width = "18rem";
 
@@ -42,7 +47,8 @@ function addToPage(title, subtitle, textContent) {
 
         divBody.append(h5, h6, p)
         divCard.appendChild(divBody)
-        container.appendChild(divCard)
+        divCol.appendChild(divCard)
+        row.appendChild(divCol)
 }
 
 
@@ -58,3 +64,11 @@ for (let i = 0; i < library.length; i++) {
     addToPage(name, author, `Finished? : ${haveRead}`)
     
 }
+
+
+const createBtn = document.getElementById('addbookBtn')
+
+createBtn.addEventListener('click', () => {
+    const myModal = new bootstrap.Modal(document.getElementById('myModal'), {backdrop : false});
+    myModal.show();
+})

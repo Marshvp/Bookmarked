@@ -3,3 +3,9 @@
 * {
     font-family: Raleway, sans-serif;
 }
+
+.title {
+    display: grid;
+    justify-content: center;
+    padding: 2em;
+}
