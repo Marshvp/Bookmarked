@@ -10,7 +10,7 @@ function Book(name, author, pages, haveRead) {
 function addBookToLibrary(name, author, pages, haveRead) {
     const newBook = new Book(name, author, pages, haveRead)
     library.push(newBook)
-    return `${newBook.name} was written by ${newBook.author}. It has been added to the library`
+
 };
 
 const bookTest = addBookToLibrary("Reacher", "Not Sure",544, false)
@@ -21,20 +21,22 @@ const bookTest4 = addBookToLibrary("Atomic Habbits", "James Clear",306, true)
 console.log(bookTest);
 console.log(library);
 
-function addToPage(title, subtitle, textContent, haveRead) {
-    const container = document.querySelector('.container')
-    const row = document.querySelector('.row')
+function addToPage(title, subtitle, textContent, haveRead, index) {
+    const container = document.querySelector('.container');
+    const row = document.querySelector('.row');
     
-    const divCol = document.createElement('div')
-    const divCard = document.createElement('div')
-    const divBody = document.createElement('div')
-    const h5 = document.createElement('h5')
-    const h6 = document.createElement('h6')
-    const pages = document.createElement('p')
-    const readStatus = document.createElement('p')
+    const divCol = document.createElement('div');
+    const divCard = document.createElement('div');
+    const divBody = document.createElement('div');
+    const h5 = document.createElement('h5');
+    const h6 = document.createElement('h6');
+    const pages = document.createElement('p');
+    const readStatus = document.createElement('p');
+    let finishBtn;
+    const removeBtn = document.createElement('button')
 
 
-        divCol.classList.add('col-md-4', 'mb-3')
+        divCol.classList.add('col-lg-4', 'mb-3', 'align-self-center')
         divCard.classList.add('card')
         divCard.style.width = "18rem";
 
@@ -46,11 +48,34 @@ function addToPage(title, subtitle, textContent, haveRead) {
         h6.textContent = subtitle;
         pages.classList.add('card-text')
         pages.textContent = textContent;
+
+        
         readStatus.classList.add('card-text')
         readStatus.textContent = `Finished?: ${haveRead}`
+        
+        if (haveRead !== 'Yes') {
+            finishBtn = document.createElement('button');
+            finishBtn.classList.add('btn', 'btn-danger', 'finish-btn');
+            finishBtn.textContent = "Mark as completed?";
+            finishBtn.setAttribute('data-index', index); 
+    
+            readStatus.appendChild(finishBtn);
+        }
+
+        removeBtn.classList.add('btn', 'btn-warning', 'removeBtn')
+        removeBtn.textContent = "Delete from List?"
+        removeBtn.setAttribute('data-index', index)
+        removeBtn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            library.splice(index, 1);
+            loadCards()
+            console.log(library);
+        })
+
+        
 
 
-        divBody.append(h5, h6, pages, readStatus)
+        divBody.append(h5, h6, pages, readStatus, removeBtn)
         divCard.appendChild(divBody)
         divCol.appendChild(divCard)
         row.appendChild(divCol)
@@ -62,20 +87,15 @@ function loadCards() {
     const row = document.querySelector('.row');
     row.innerHTML = '';
 
-    for (let i = 0; i < library.length; i++) {
-        const name = library[i].name;
-        const author = library[i].author;
-        const pages = library[i].pages
-        const readCheck = library[i].read
-        let haveRead = readCheck ? "Yes" : "No"
-        console.log(haveRead);
-    
-        
-        addToPage(name, author, pages, haveRead)
-        
-    
-}}
+    library.forEach((book, index) => {
+        const name = book.name;
+        const author = book.author;
+        const pagesText = `Number of Pages: ${book.pages}`;
+        const haveReadText = book.read ? "Yes" : "No";
 
+        addToPage(name, author, pagesText, haveReadText, index); 
+    });
+}
 loadCards()
 
 
@@ -97,6 +117,7 @@ document.getElementById('addbookForm').addEventListener('submit', function(event
 
 
     const readStatus = (haveRead === 'Yes');
+    console.log(readStatus);
     const newbookInfo = new addBookToLibrary(name, author, pages, readStatus);
 
     document.getElementById('addbookForm').reset();
@@ -107,3 +128,16 @@ document.getElementById('addbookForm').addEventListener('submit', function(event
 
     loadCards()
 })
+
+const rowContainer = document.querySelector('.row');
+if (rowContainer) {
+    rowContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('finish-btn')) {
+            const bookIndex = event.target.getAttribute('data-index');
+            library[bookIndex].read = true;
+            loadCards();
+        }
+    });
+}
+
+
