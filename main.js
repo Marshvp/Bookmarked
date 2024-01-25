@@ -1,21 +1,22 @@
 const library = [];
 
-function Book(name, author, haveRead) {
-    this.name = name
-    this.author = author
+function Book(name, author, pages, haveRead) {
+    this.name = name;
+    this.author = author;
+    this.pages = pages
     this.read = haveRead;
 };
 
-function addBookToLibrary(name, author, haveRead) {
-    const newBook = new Book(name, author, haveRead)
+function addBookToLibrary(name, author, pages, haveRead) {
+    const newBook = new Book(name, author, pages, haveRead)
     library.push(newBook)
     return `${newBook.name} was written by ${newBook.author}. It has been added to the library`
 };
 
-const bookTest = addBookToLibrary("Reacher", "Not Sure", false)
-const bookTest2 = addBookToLibrary("Naruto", "I dont know", true)
-const bookTest3 = addBookToLibrary("Assassin's Apprentice", "Robin Hobb", true)
-const bookTest4 = addBookToLibrary("Atomic Habbits", "James Clear", true)
+const bookTest = addBookToLibrary("Reacher", "Not Sure",544, false)
+const bookTest2 = addBookToLibrary("Naruto", "I dont know",700, true)
+const bookTest3 = addBookToLibrary("Assassin's Apprentice", "Robin Hobb",392, true)
+const bookTest4 = addBookToLibrary("Atomic Habbits", "James Clear",306, true)
 
 console.log(bookTest);
 console.log(library);
@@ -53,17 +54,23 @@ function addToPage(title, subtitle, textContent) {
 
 
 
+function loadCards() {
+    const row = document.querySelector('.row');
+    row.innerHTML = '';
 
-for (let i = 0; i < library.length; i++) {
-    const author = library[i].author;
-    const name = library[i].name;
-    const readCheck = library[i].read
-    let haveRead = readCheck ? "Yes" : "No"
+    for (let i = 0; i < library.length; i++) {
+        const name = library[i].name;
+        const author = library[i].author;
+        const readCheck = library[i].read
+        let haveRead = readCheck ? "Yes" : "No"
+    
+        
+        addToPage(name, author, `Finished? : ${haveRead}`)
+        
+    
+}}
 
-    
-    addToPage(name, author, `Finished? : ${haveRead}`)
-    
-}
+loadCards()
 
 
 const createBtn = document.getElementById('addbookBtn')
@@ -71,4 +78,26 @@ const createBtn = document.getElementById('addbookBtn')
 createBtn.addEventListener('click', () => {
     const myModal = new bootstrap.Modal(document.getElementById('myModal'), {backdrop : false});
     myModal.show();
+})
+
+
+document.getElementById('addbookForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('addbookName').value;
+    const author = document.getElementById('addbookAuthor').value;
+    const pages = document.getElementById('addbookPages').value;
+    const haveRead = document.querySelector('input[name="readStatus"]:checked').value;
+
+
+    const readStatus = (haveRead === 'Yes');
+    const newbookInfo = new addBookToLibrary(name, author, pages, readStatus);
+
+    document.getElementById('addbookForm').reset();
+    const myModal = bootstrap.Modal.getInstance(document.getElementById('myModal'));
+    myModal.hide();
+
+    console.log(library);
+
+    loadCards()
 })

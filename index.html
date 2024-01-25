@@ -28,28 +28,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form id="addbookForm" action="" method="post">
                         <label for="addbookName" class="form-label mt-3">Book Name</label>
                         <input type="text" name="name" id="addbookName" class="form-control">
                         <label for="addbookAuthor" class="form-label mt-3">Author</label>
                         <input type="text" name="author" id="addbookAuthor" class="form-control">
                         <label for="addbookpages" class="form-label mt-3">Number of Pages</label>
-                        <input type="number" name="pages" id="addbookpages" class="form-control">
+                        <input type="number" name="pages" id="addbookPages" class="form-control">
                         <div class="form-check">
                             <legend class="form-label mt-3">Have you read the book?</legend>
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioBtnYes">
+                            <input class="form-check-input" type="radio" name="readStatus" id="radioBtnYes">
                             <label class="form-check-label" for="radioBtnYes">Yes</label>
                           </div>
 
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="radioBtnNo" checked>
+                            <input class="form-check-input" type="radio" name="readStatus" id="radioBtnNo" checked>
                             <label class="form-check-label" for="radioBtnNo">No</label>
                           </div>
                     
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
                 </form>
             </div>
