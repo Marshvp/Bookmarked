@@ -21,7 +21,7 @@ const bookTest4 = addBookToLibrary("Atomic Habbits", "James Clear",306, true)
 console.log(bookTest);
 console.log(library);
 
-function addToPage(title, subtitle, textContent) {
+function addToPage(title, subtitle, textContent, haveRead) {
     const container = document.querySelector('.container')
     const row = document.querySelector('.row')
     
@@ -30,7 +30,8 @@ function addToPage(title, subtitle, textContent) {
     const divBody = document.createElement('div')
     const h5 = document.createElement('h5')
     const h6 = document.createElement('h6')
-    const p = document.createElement('p')
+    const pages = document.createElement('p')
+    const readStatus = document.createElement('p')
 
 
         divCol.classList.add('col-md-4', 'mb-3')
@@ -43,10 +44,13 @@ function addToPage(title, subtitle, textContent) {
         h5.textContent = title;
         h6.classList.add('card-subtitle', 'mb-2', 'text-body-secondary')
         h6.textContent = subtitle;
-        p.classList.add('card-text')
-        p.textContent = textContent;
+        pages.classList.add('card-text')
+        pages.textContent = textContent;
+        readStatus.classList.add('card-text')
+        readStatus.textContent = `Finished?: ${haveRead}`
 
-        divBody.append(h5, h6, p)
+
+        divBody.append(h5, h6, pages, readStatus)
         divCard.appendChild(divBody)
         divCol.appendChild(divCard)
         row.appendChild(divCol)
@@ -61,11 +65,13 @@ function loadCards() {
     for (let i = 0; i < library.length; i++) {
         const name = library[i].name;
         const author = library[i].author;
+        const pages = library[i].pages
         const readCheck = library[i].read
         let haveRead = readCheck ? "Yes" : "No"
+        console.log(haveRead);
     
         
-        addToPage(name, author, `Finished? : ${haveRead}`)
+        addToPage(name, author, pages, haveRead)
         
     
 }}
